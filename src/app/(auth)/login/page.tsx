@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
-import React, {useEffect} from "react";
+import React, {useEffect, useContext} from "react";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
+import { PostContext } from "@/context/PostContext";
+import { set } from "mongoose";
 
 
 
@@ -12,6 +14,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
     const router = useRouter();
+    const {isAuth, setIsAuth} = useContext<any>(PostContext);
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -27,7 +30,9 @@ export default function LoginPage() {
             const response = await axios.post("/api/users/login", user);
             console.log("Login success", response.data);
             toast.success("Login success");
+            setIsAuth(true);
             router.push("/about");
+            router.refresh();
         } catch (error:any) {
             console.log("Login failed", error.message);
             toast.error(error.message);

@@ -4,14 +4,19 @@ import Image from "next/image";
 import {toast} from "react-hot-toast";
 import {useRouter} from "next/navigation";
 import axios from "axios";
+import { PostContext } from "@/context/PostContext";
+import { useContext } from "react";
 
 const Sidebar = () => {
+  const {isAuth, setIsAuth} = useContext(PostContext)
     const router = useRouter()
     const logout = async () => {
         try {
             await axios.get('/api/users/logout')
             toast.success('Logout successful')
+            setIsAuth(false);
             router.push('/login')
+            router.refresh();
         } catch (error) {
             console.log(error.message);
             toast.error(error.message)

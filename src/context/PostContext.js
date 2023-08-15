@@ -2,6 +2,7 @@
 
 import { useEffect, useState, createContext } from "react";
 import axios from "axios";
+import {toast} from "react-hot-toast";
 
 
 export const PostContext = createContext({});
@@ -16,6 +17,11 @@ export const PostProvider = ({ children }) => {
     const [education , setEducation] = useState([]);
     const [image, setImage] = useState(null);
     const [id, setId] = useState(null);
+    const [isAuth, setIsAuth] = useState(false)
+
+  
+      
+    
     
 
     useEffect(() => {
@@ -33,7 +39,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchAbout();
-      }, [setAboutData,id,setId]);
+      }, [setUser,setIsAuth,id,setId]);
 
       useEffect(() => {
         const fetchUser = async () => {
@@ -51,7 +57,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchUser();
-      }, []);
+      }, [setIsAuth, isAuth]);
       console.log(id);
 
 
@@ -70,7 +76,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchSkill();
-      }, [setSkills, id,setId]);
+      }, [setUser,setIsAuth, id,setId]);
 
       useEffect(() => {
         const fetchCertification = async () => {
@@ -87,7 +93,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchCertification();
-      }, [setCertification, id,setId]);
+      }, [setUser,setIsAuth, id,setId]);
 
 
       useEffect(() => {
@@ -105,7 +111,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchExperience();
-      },[setExperience, id,setId])
+      },[setUser,setIsAuth, id,setId])
 
         useEffect(() => {
             const fetchEducation = async () => {
@@ -143,7 +149,7 @@ export const PostProvider = ({ children }) => {
             fetchImage();
           
         
-        }, [setImage, id,setId])
+        }, [setUser,setIsAuth, id,setId])
 
         
 
@@ -152,7 +158,7 @@ export const PostProvider = ({ children }) => {
 
     return (
         <PostContext.Provider value={{ aboutData, setAboutData, user, setUser, skills, setSkills , certification, setCertification
-        , experience, setExperience , education, setEducation, image, setImage, id
+        , experience, setExperience , education, setEducation, image, setImage, id, isAuth, setIsAuth
         
         }}>
             <div>
