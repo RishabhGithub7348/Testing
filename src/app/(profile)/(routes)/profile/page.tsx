@@ -13,10 +13,6 @@ import UpdateCertificationModal from "@/components/model/UpdateCertificationModa
 import { PostContext } from "@/context/PostContext";
 import  ImageUpload from "@/components/ImageUpload";
 
-interface ImageUpload {
-  onChange: (imageUrl: string) => void;
-}
-
 
 
 
@@ -43,6 +39,9 @@ export default function ProfilePage() {
     
     });
     const [isEditAboutMode, setIsEditAboutMode] = useState(false);
+    const [isEditNameMode, setIsEditNameMode] = useState(false);
+    const [isEditEmailMode, setIsEditEmailMode] = useState(false);
+    const [isEditPhoneNumberMode, setIsEditPhoneNumberMode] = useState(false);
     const [editedAbout, setEditedAbout] = useState(aboutData);
     const [editedName, setEditedName] = useState(user?.username);
     const [editedEmail, setEditedEmail] = useState(user?.email);
@@ -73,6 +72,27 @@ export default function ProfilePage() {
    
    }
 
+   const handleEditNameToggle = () => {
+    setIsEditNameMode(!isEditNameMode);
+    setEditedName(user?.username);
+    // Reset editedAbout when toggling edit mode
+   
+   }
+
+   const handleEditEmailToggle = () => {
+    setIsEditEmailMode(!isEditEmailMode);
+    setEditedEmail(user?.email);
+   // Reset editedAbout when toggling edit mode
+   
+   }
+
+   const handleEditPhoneNumberToggle = () => {
+    setIsEditPhoneNumberMode(!isEditPhoneNumberMode);
+    setEditedPhoneNumber(user?.number);
+      // Reset editedAbout when toggling edit mode
+   
+   }
+
 
    const handleImageUpload = async (imageUrl:any) => {
     try {  
@@ -89,12 +109,7 @@ export default function ProfilePage() {
 
 
 
-    const handleEditModeToggle = (fieldName: any) => {
-      setIsEditMode((prevState:any) => ({
-        ...prevState,
-        [fieldName]: !prevState[fieldName],
-      }));
-    };
+    
 
     const handleEditEducation = (education:any) => {
       setEditedEducation(education);
@@ -117,42 +132,46 @@ export default function ProfilePage() {
 
     
 
-    const handleSaveChanges = async (fieldName:any) => {
+    const handleSaveChanges = async (fieldName: string) => {
       try {
-        console.log("editedName:", editedName);
-        const response = await axios.put("/api/users/detail", {
-          username: editedName,
-          email: editedEmail,
-          number: editedPhoneNumber,
-        });
-        console.log("response", response.data);
+        const updatedData = {
+          username: isEditNameMode ? editedName : user?.username,
+          email: isEditEmailMode ? editedEmail : user?.email,
+          number: isEditPhoneNumberMode ? editedPhoneNumber : user?.number,
+        };
+    
+        const response = await axios.put('/api/users/detail', updatedData);
+        console.log('response', response.data);
     
         // Update the local state with the new data
-        setUser((prevUser:any) => ({
+        setUser((prevUser: any) => ({
           ...prevUser,
-          username: editedName,
-          email: editedEmail,
-          number: editedPhoneNumber,
+          ...updatedData,
         }));
     
-        // Handle success, show a success toast, or update context
-        toast.success("Profile updated successfully");
+        // Handle success, show a success toast
+        toast.success('Profile updated successfully');
     
-        setIsEditMode((prevState) => ({
-          ...prevState,
-          [fieldName]: false,
-        }));
+        // Turn off the edit mode for the corresponding field after successful save
+        switch (fieldName) {
+          case 'username':
+            setIsEditNameMode(false);
+            break;
+          case 'email':
+            setIsEditEmailMode(false);
+            break;
+          case 'phoneNumber':
+            setIsEditPhoneNumberMode(false);
+            break;
+          default:
+            break;
+        }
       } catch (error) {
         // Handle error, show an error toast
-        toast.error("Error updating profile");
-    
-        setIsEditMode((prevState) => ({
-          ...prevState,
-          [fieldName]: false,
-        }));
+        toast.error('Error updating profile');
       }
     };
-
+    
     const  handleSaveAbout = async () => {
         try{
             const response = await axios.put("/api/users/about", {
@@ -212,7 +231,7 @@ export default function ProfilePage() {
 
 
 
-       <div className="flex relative m-5   flex-col  bg-[#FAFBFF] mt-[15px] ">
+       <div className="flex relative    flex-col  bg-[#FAFBFF] mt-[15px] ">
         <div className='flex  bg-[#1E2875] w-[1100px]  lg:ml-[255px] md:ml-[255px] sm:m-5 rounded-md h-[169px]'>
           <div className="flex  justify-center m-3">
           <h1 className="text-[#FFF] text-[14px] font-[500] leading-[normal]">MY PROFILE</h1>
@@ -244,7 +263,7 @@ export default function ProfilePage() {
                     </div>
 
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[168px] rounded-[4px] border shadow-md  border-[#00000026] ">
+                    <div className="flex flex-col  lg:ml-8 md:ml-8 p-3 w-[365px] h-[168px] rounded-[4px] border shadow-md  border-[#00000026] ">
                    
                     <div className=" flex flex-col gap-[9px] ">
                     <div className="flex flex-col gap-1">
@@ -253,7 +272,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="flex items-center justify-between ">
                         <div>
-                        {isEditMode.username ? (
+                        {isEditNameMode? (
                          <input
                           name="username"
                           type="text"
@@ -267,10 +286,10 @@ export default function ProfilePage() {
                             </div>
                             <div className="w-[40] flex items-center justify-center border  shadow-md pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
-                            onClick={isEditMode.username ?() => handleSaveChanges("username") : () => handleEditModeToggle("username")}
+                            onClick={isEditNameMode ?() => handleSaveChanges("username") : handleEditNameToggle}
                            className="text-[Dark] text-[9px] font-[500] leading-[normal]"
                           >
-                         {isEditMode.username ? "Save" : "Edit"}
+                         {isEditNameMode? "Save" : "Edit"}
                            </button>
 
                        </div>
@@ -284,7 +303,7 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between ">
                         <div>
                         <div className="flex flex-col gap-1">
-                    {isEditMode.email ? (
+                    {isEditEmailMode ? (
                     <input
                     name="email"
                     value={editedEmail}
@@ -299,10 +318,10 @@ export default function ProfilePage() {
                             </div>
                             <div className="w-[40] flex items-center justify-center shadow-md border  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
-                            onClick={isEditMode.email ? () => handleSaveChanges('email') : () => handleEditModeToggle("email")}
+                            onClick={isEditEmailMode ? () => handleSaveChanges('email') : handleEditEmailToggle}
                             className="text-[Dark] text-[9px] font-[500] leading-[normal]"
                             >
-                          {isEditMode.email ? "Save" : "Edit"}
+                          {isEditEmailMode ? "Save" : "Edit"}
                          </button>
                        </div>
                       </div>
@@ -314,7 +333,7 @@ export default function ProfilePage() {
                       </div>
                       <div className="flex items-center justify-between  ">
                         <div>
-                        {isEditMode.phoneNumber ? (
+                        {isEditPhoneNumberMode ? (
                     <input
                     name="phoneNumber"
                     value={editedPhoneNumber}
@@ -327,10 +346,10 @@ export default function ProfilePage() {
                             </div>
                             <div className="w-[40] flex items-center justify-center  border  shadow-md  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
-                           onClick={isEditMode.phoneNumber ? () => handleSaveChanges("phoneNumber") : () => handleEditModeToggle("phoneNumber")}
+                           onClick={isEditPhoneNumberMode ? () => handleSaveChanges("phoneNumber") : handleEditPhoneNumberToggle}
                           className="text-[Dark] text-[9px] font-[500] leading-[normal]"
                          >
-                           {isEditMode.phoneNumber ? "Save" : "Edit"}
+                           {isEditPhoneNumberMode ? "Save" : "Edit"}
                         </button>
                        </div>
                       </div>
@@ -342,7 +361,7 @@ export default function ProfilePage() {
                     
                     </div>
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] border shadow-md border-[#00000026] ">
+                    <div className="flex flex-col  lg:ml-8 md:ml-8 p-3 w-[365px] h-[110px] rounded-[4px] border shadow-md border-[#00000026] ">
                        <div className="flex flex-col gap-[9px]">
                        <div className="flex items-center justify-between ">
                         <div>
@@ -376,7 +395,7 @@ export default function ProfilePage() {
                        </div>
                     </div>
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] shadow-md border border-[#00000026] ">
+                    <div className="flex flex-col  lg:ml-8 md:ml-8 p-3 w-[365px] h-[110px] rounded-[4px] shadow-md border border-[#00000026] ">
                        <div className="flex flex-col gap-[9px]">
                        <div className="flex items-center justify-between ">
                         <div>

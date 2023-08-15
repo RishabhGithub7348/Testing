@@ -143,7 +143,7 @@ export default function MyConnection() {
            <h1 className='text-[#222222E5] text-[20px] font-[300] leading-[normal]'>People you can also connect</h1>
            </div>
   
-           <div className="flex items-center mt-8 md:justify-start lg:justify-start justify-center flex-wrap gap-8">
+           <div className="flex items-center mt-1 md:justify-start lg:justify-start justify-center flex-wrap gap-8">
            {unconnectedUsers.map((connection, index) => (
       // Render potential connections only if not already connected
       connection && (

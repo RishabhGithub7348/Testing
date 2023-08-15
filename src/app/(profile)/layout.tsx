@@ -10,7 +10,7 @@ export default function ProfileLayout({
          <>
           <div className="md:flex lg:flex md:overflow-hidden lg:overflow-hidden overflow-x-hidden  h-screen">
             <Sidebar  />
-            <div className="flex flex-col   w-full">
+            <div className="flex flex-col  ">
                 <div className=''>
                 <Navbar />
                 </div>

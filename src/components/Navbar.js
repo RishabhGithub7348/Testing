@@ -112,12 +112,44 @@ const Navbar = () =>  {
         </div>
 
         <div className="flex items-center lg:hidden md:hidden  gap-[16px] space-x-4">
+        
         <div className="flex items-center justify-center">
             <Image src="/images/bell.svg" alt="logo" width={29} height={29}  />
             </div>
+            <button onClick={toggleSettings}>
         <div className="flex items-center ">
              <Image src="/images/profile.png" alt="logo" width={44} height={44} className="flex items-center border rounded-full object-contain bg-[#FFA78D]"  />
              </div>
+        </button>
+        {settingsVisible && (
+            <div className="absolute top-[80px] right-5 bg-white  border-2 w-[150px]  border-gray-300 p-2 rounded-md shadow-md">
+              {/* Settings content */}
+              {/* For example: */}
+             <div className="flex flex-col items-center gap-2">
+               <div className="flex items-center justify-center">
+               <Link href="/profile">
+                <p className="text-[16px] font-[500] leading-[normal]  text-[#373B5C]">My Profile</p>
+                </Link>
+               </div>
+                <hr  className="w-full  border-3"/>
+                <Link href="/connection">
+                    <p className="text-[16px] font-[500] leading-[normal]  text-[#373B5C]">Connection</p>
+                
+                </Link>
+                <hr  className="w-full  border-3"/>
+                <Link href="/about">
+                    <p className="text-[16px] font-[500] leading-[normal]  text-[#373B5C]">Edit Setting</p>
+                
+                </Link>
+                <hr  className="w-full  border-3"/>
+                <button onClick={logout}
+                    className="text-[16px] font-[500] leading-[normal]  text-[#373B5C]">Log Out
+                
+                </button>
+         
+             </div>
+            </div>
+          )}
         </div>
 
       

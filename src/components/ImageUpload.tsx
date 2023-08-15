@@ -1,13 +1,15 @@
-// ImageUpload.js
-"use client"
+// ImageUpload.tsx
 import React, { useCallback } from "react";
 import { CldUploadWidget } from "next-cloudinary";
-import Image from "next/image";
+
+interface ImageUploadProps {
+  onChange: (imageUrl: string) => void;
+}
 
 const uploadPreset = "tffpd7m4";
 
-const ImageUpload = ({ onChange, value }) => {
-  const handleUpload = useCallback((result) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ onChange }) => {
+  const handleUpload = useCallback((result:any) => {
     if (result.info) {
       onChange(result.info.secure_url);
     }
@@ -22,14 +24,10 @@ const ImageUpload = ({ onChange, value }) => {
       }}
     >
       {({ open }) => (
-        <div
-          onClick={() => open?.()}
-          
-        >
+        <div onClick={() => open?.()}>
           <div className="w-[88] flex items-center justify-center shadow-md border p-4 h-[19px] rounded-[88px] bg-[#F0EFFA]">
-                        <button >Upload Button</button>
-                       </div>
-          
+            <button>Upload Button</button>
+          </div>
         </div>
       )}
     </CldUploadWidget>

@@ -1,11 +1,12 @@
 "use client"
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from 'next/image'
 import Link from 'next/link'
 import About from "@/components/About"
 import  axios from 'axios';
 import {useRouter} from "next/navigation";
 import { toast } from "react-hot-toast";
+import router from "next/navigation"
 
 
 
@@ -15,9 +16,28 @@ const AboutPage =  () =>  {
      
     const [about, setAbout] = useState('');
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState({});
+    const [id, setId] = useState('');
 
   
-    
+    // useEffect(() => {
+    //   const fetchUser = async () => {
+    //     try {
+    //       const response = await axios.get("/api/users/detail");
+    //       console.log('Fetched User:', response.data.data);
+    //       setUser(response.data.data);
+    //       setId(response.data.data._id);
+    //        router.refresh();
+    //     } catch (error) {
+    //       console.error('Error fetching User:', error);
+          
+    //     } finally {
+    //       console.log('Done fetching User');
+    //     }
+    //   };
+  
+    //   fetchUser();
+    // }, []);
 
     
     

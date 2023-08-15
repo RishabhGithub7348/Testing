@@ -33,7 +33,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchAbout();
-      }, [setAboutData,user]);
+      }, [setAboutData,id,setId]);
 
       useEffect(() => {
         const fetchUser = async () => {
@@ -51,7 +51,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchUser();
-      }, [setUser]);
+      }, []);
       console.log(id);
 
 
@@ -70,7 +70,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchSkill();
-      }, [setSkills, id]);
+      }, [setSkills, id,setId]);
 
       useEffect(() => {
         const fetchCertification = async () => {
@@ -87,7 +87,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchCertification();
-      }, [setCertification, id]);
+      }, [setCertification, id,setId]);
 
 
       useEffect(() => {
@@ -105,7 +105,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchExperience();
-      },[setExperience, id])
+      },[setExperience, id,setId])
 
         useEffect(() => {
             const fetchEducation = async () => {
@@ -123,7 +123,7 @@ export const PostProvider = ({ children }) => {
         
             fetchEducation();
           
-        },[setEducation,id])
+        },[setEducation,id,setId])
 
         useEffect(() => {
             const fetchImage = async () => {
@@ -143,7 +143,7 @@ export const PostProvider = ({ children }) => {
             fetchImage();
           
         
-        }, [setImage, id])
+        }, [setImage, id,setId])
 
         
 

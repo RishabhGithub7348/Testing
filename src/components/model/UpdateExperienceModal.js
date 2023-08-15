@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { PostContext } from "../../context/PostContext";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const UpdateExperienceModal = ({ isOpen, onClose }) => {
     const { experience, setExperience} = useContext(PostContext)
@@ -34,7 +35,8 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
 
         });
         console.log("Response from server:", response.data);
-        setExperience(editedExperience)
+        setExperience(editedExperience);
+        toast.success("Experience updated successfully!");
   
         onClose();
     }

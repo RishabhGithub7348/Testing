@@ -2,6 +2,7 @@
 import { useState, useContext } from "react";
 import { PostContext } from "../../context/PostContext";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const UpdateEducationModal = ({ isOpen, onClose }) => {
   
@@ -37,6 +38,7 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
         });
         console.log("Response from server:", response.data);
         setEducation(editedEducation);
+        toast.success("Education updated successfully!");
   
         onClose();
     }

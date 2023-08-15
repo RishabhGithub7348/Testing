@@ -1,6 +1,7 @@
 import { useState , useContext} from "react";
 import { PostContext } from "../../context/PostContext";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const UpdateCertificationModal = ({ isOpen, onClose}) => {
 
@@ -30,6 +31,7 @@ const UpdateCertificationModal = ({ isOpen, onClose}) => {
       // Call the onSave function passed from parent component
       console.log("Response from server:", response.data);
       setCertification(editedCertification)
+      toast.success("Certification updated successfully!");
 
       onClose();
     } catch (error) {
