@@ -8,11 +8,11 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
   const { education, setEducation} = useContext(PostContext)
 
   const [editedEducation, setEditedEducation] = useState({
-    university: education.university,
-    course: education.course,
-    startYear: education.startYear,
-    endYear: education.endYear,
-    collegeInfo: education.collegeInfo
+    university: education?.university,
+    course: education?.course,
+    startYear: education?.startYear,
+    endYear: education?.endYear,
+    collegeInfo: education?.collegeInfo
   });
 
   const handleInputChange = (field, value) => {
@@ -54,7 +54,7 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
         <input
           type="text"
             name="university"
-          value={editedEducation.university}
+          value={editedEducation?.university}
           onChange={e => handleInputChange("university", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="University Name"
@@ -62,7 +62,7 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
         <input
           type="text"
           name="course"
-          value={editedEducation.course}
+          value={editedEducation?.course}
           onChange={e => handleInputChange("course", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Course"
@@ -70,7 +70,7 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
         <input
           type="number"
           name="startYear"
-          value={editedEducation.startYear}
+          value={editedEducation?.startYear}
           onChange={e => handleInputChange("startYear", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Start Year"
@@ -78,14 +78,14 @@ const UpdateEducationModal = ({ isOpen, onClose }) => {
         <input
           type="number"
             name="endYear"
-          value={editedEducation.endYear}
+          value={editedEducation?.endYear}
           onChange={e => handleInputChange("endYear", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="End Year"
         />
         <textarea
         name="collegeInfo"
-          value={editedEducation.collegeInfo}
+          value={editedEducation?.collegeInfo}
           onChange={e => handleInputChange("collegeInfo", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="College Info"

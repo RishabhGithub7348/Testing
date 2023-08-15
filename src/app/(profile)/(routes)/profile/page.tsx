@@ -11,7 +11,11 @@ import UpdateEducationModal from "@/components/model/UpdateEducationModal";
 import UpdateExperienceModal from "@/components/model/UpdateExperienceModal";
 import UpdateCertificationModal from "@/components/model/UpdateCertificationModal";
 import { PostContext } from "@/context/PostContext";
+import  ImageUpload from "@/components/ImageUpload";
 
+interface ImageUpload {
+  onChange: (imageUrl: string) => void;
+}
 
 
 
@@ -28,6 +32,9 @@ export default function ProfilePage() {
       certification,
       experience,
       education,
+      image,
+      setImage,
+
     } = useContext<any>(PostContext);
     const [isEditMode, setIsEditMode] = useState({
       username: false,
@@ -37,9 +44,9 @@ export default function ProfilePage() {
     });
     const [isEditAboutMode, setIsEditAboutMode] = useState(false);
     const [editedAbout, setEditedAbout] = useState(aboutData);
-    const [editedName, setEditedName] = useState(user?.username || "");
-    const [editedEmail, setEditedEmail] = useState(user?.email || "");
-    const [editedPhoneNumber, setEditedPhoneNumber] = useState(user?.number || "");
+    const [editedName, setEditedName] = useState(user?.username);
+    const [editedEmail, setEditedEmail] = useState(user?.email);
+    const [editedPhoneNumber, setEditedPhoneNumber] = useState(user?.number);
     const [editedSkills, setEditedSkills] = useState([...skills]); // Assuming skills is an array of strings
     const [isEditSkillsMode, setIsEditSkillsMode] = useState(false);
     const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
@@ -48,6 +55,7 @@ export default function ProfilePage() {
     const [editedCertification, setEditedCertification] = useState(certification);
     const [editedExperience, setEditedExperience] = useState(experience);
     const [editedEducation, setEditedEducation] = useState(education);
+    
 
     // Extracting the first name from the full name
   const fullName = user?.username || '';
@@ -65,6 +73,19 @@ export default function ProfilePage() {
    
    }
 
+
+   const handleImageUpload = async (imageUrl:any) => {
+    try {  
+      const response = await axios.post('/api/users/profile', {  
+        profilePic: imageUrl,
+      });
+      console.log("response", response.data);
+      setImage(imageUrl);
+      toast.success('Image uploaded successfully');
+    } catch (error) {
+      toast.error('Error uploading image');
+    }
+  };
 
 
 
@@ -187,29 +208,43 @@ export default function ProfilePage() {
         onClose={() => setIsCertificationModalOpen(false)}
       
       />
+      
 
-       <div className="flex relative  flex-col  bg-[#FAFBFF] mt-5">
-        <div className='flex  bg-[#1E2875] w-[1100px]  ml-[255px] rounded-md h-[169px]'>
+
+
+       <div className="flex relative m-5   flex-col  bg-[#FAFBFF] mt-[15px] ">
+        <div className='flex  bg-[#1E2875] w-[1100px]  lg:ml-[255px] md:ml-[255px] sm:m-5 rounded-md h-[169px]'>
           <div className="flex  justify-center m-3">
-          <h1 className="text-[#FFF] text-[10px] font-[500] leading-[normal]">MY PROFILE</h1>
+          <h1 className="text-[#FFF] text-[14px] font-[500] leading-[normal]">MY PROFILE</h1>
           </div>
           
         </div>
-        <div className="flex absolute z-10 flex-col ml-[305px] top-[88px] w-[900px] h-[600px] bg-[#FFF] border rounded-[8px] border-[#EBEBEE] flex-shrink-0 shadow-md">
-            <div className="grid grid-cols-2 gap-40     ">
-               <div className="col-span-1 w-[400px]   ml-5">
+        <div className="flex absolute z-10 flex-col md:ml-[305px] lg:ml-[305px] top-[88px] md:w-[900px] lg:w-[900px] w-[600px]  h-[600px] bg-[#FFF] border rounded-[8px] border-[#EBEBEE] flex-shrink-0 shadow-md">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2  grid-rows-2 md:gap-40 lg:gap-40 gap-20    ">
+               <div className="col-span-1 md:w-[400px] lg:w-[400px]   lg:ml-5 md:ml-5">
                   <div className="flex flex-col justify-center  mt-4 gap-3">
                     <div className="flex items-center justify-between p-3  ">
                       <div className="flex items-center justify-center rounded-full ml-4 bg-[#FFA78D] outline-none overflow-hidden w-[88px] h-[88px]">
-                        <Image src="/images/profile.png" alt="logo" width={88} height={88} className=" object-contain outline-none " />
+                        <Image 
+                        src={image ? image : "/images/profile.png"}
+                         alt="logo" width={88} height={88} className=" object-contain outline-none " />
                       </div>
-                       <div className="w-[88] flex items-center justify-center p-4 h-[19px] rounded-[88px] bg-[#F0EFFA]">
-                        <button>Upload Button</button>
-                       </div>
+                       
+                       <ImageUpload
+                           onChange={(imageUrl) => {
+                          setImage(imageUrl);
+                          handleImageUpload(imageUrl);
+                        
+                    }}
+                 />
+
+      
+                       
+                       
                     </div>
 
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[168px] rounded-[4px] border  border-[#00000026] ">
+                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[168px] rounded-[4px] border shadow-md  border-[#00000026] ">
                    
                     <div className=" flex flex-col gap-[9px] ">
                     <div className="flex flex-col gap-1">
@@ -230,7 +265,7 @@ export default function ProfilePage() {
                       <p className="text-[#222222E5] text-[12px] font-[500] leading-[normal]">{user?.username}</p>
                       )}
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center border  shadow-md pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
                             onClick={isEditMode.username ?() => handleSaveChanges("username") : () => handleEditModeToggle("username")}
                            className="text-[Dark] text-[9px] font-[500] leading-[normal]"
@@ -262,7 +297,7 @@ export default function ProfilePage() {
                 </div>
 
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center shadow-md border  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
                             onClick={isEditMode.email ? () => handleSaveChanges('email') : () => handleEditModeToggle("email")}
                             className="text-[Dark] text-[9px] font-[500] leading-[normal]"
@@ -273,11 +308,11 @@ export default function ProfilePage() {
                       </div>
                       
                      </div>
-                     <div className="flex flex-col gap-1 ">
+                     <div className="flex flex-col  ">
                       <div>
                         <p  className="text-[#1F1F1FB2] text-[12px] font-[500] leading-[normal]">Phone Number</p>
                       </div>
-                      <div className="flex items-center justify-between mb-2 ">
+                      <div className="flex items-center justify-between  ">
                         <div>
                         {isEditMode.phoneNumber ? (
                     <input
@@ -290,7 +325,7 @@ export default function ProfilePage() {
                  <p className="text-[#222222E5] text-[12px] font-[500] leading-[normal]">{user?.number}</p>
                   )}
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center  border  shadow-md  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
                            onClick={isEditMode.phoneNumber ? () => handleSaveChanges("phoneNumber") : () => handleEditModeToggle("phoneNumber")}
                           className="text-[Dark] text-[9px] font-[500] leading-[normal]"
@@ -307,7 +342,7 @@ export default function ProfilePage() {
                     
                     </div>
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] border border-[#00000026] ">
+                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] border shadow-md border-[#00000026] ">
                        <div className="flex flex-col gap-[9px]">
                        <div className="flex items-center justify-between ">
                         <div>
@@ -316,7 +351,7 @@ export default function ProfilePage() {
                             <span  className="text-[#413B89] text-[14px] font-[500] leading-[normal]">{firstName}</span>
                            </div>
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center  border  shadow-md justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
                             onClick={isEditAboutMode ? handleSaveAbout :  handleEditAboutToggle}
                             className="text-[Dark] text-[9px] font-[500] leading-[normal]"
@@ -341,13 +376,13 @@ export default function ProfilePage() {
                        </div>
                     </div>
 
-                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] border border-[#00000026] ">
+                    <div className="flex flex-col  ml-8 p-3 w-[365px] h-[110px] rounded-[4px] shadow-md border border-[#00000026] ">
                        <div className="flex flex-col gap-[9px]">
                        <div className="flex items-center justify-between ">
                         <div>
                         <p  className="text-[#222222E5] text-[14px] font-[500] leading-[normal]">Skills</p>
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center  border  shadow-md pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button
                              onClick={isEditSkillsMode ? handleSaveSkills : handleEditSkillsToggle}
                             className="text-[Dark] text-[9px] font-[500] leading-[normal]"
@@ -372,7 +407,7 @@ export default function ProfilePage() {
                    newSkills[index] = e.target.value;
                    setEditedSkills(newSkills);
                  }}
-                 className="border-2 shadow-sm p-2 outline-none h-[26px] rounded-[64px] text-[#1F1F1FB2] text-[12px] font-[500] leading-[normal]"
+                 className="border-2 shadow-md p-2 outline-none h-[26px] rounded-[64px] text-[#1F1F1FB2] text-[12px] font-[500] leading-[normal]"
                 />
                 <button
                   onClick={() => {
@@ -404,9 +439,9 @@ export default function ProfilePage() {
 
                   </div>
                </div>
-              <div className="col-span-1   ">
-                    <div  className="p-5">
-                    <div className="flex flex-col mt-3  p-3 w-[300px] h-[71px] rounded-[8px] border border-[#00000026] ">
+              <div className="col-span-1 border-2 shadow-lg lg:shadow-none md:shadow-none rounded-md lg:rounded-none lg:border-none ">
+                    <div  className="p-5 ">
+                    <div className="flex flex-col lg:mt-3 md:mt-3 mt-0  p-3 w-[300px] h-[71px] shadow-md rounded-[8px] border border-[#00000026] ">
                      <div className="flex items-center justify-center">
                        <div className="flex flex-col gap-1">
                           <div className="flex">
@@ -425,11 +460,11 @@ export default function ProfilePage() {
                         <div>
                             <p  className="text-[#222222E5] text-[12px] font-[500] leading-[normal]">Certifications</p>
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center  border  shadow-md  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                         <button onClick={() => handleEditCertification(certification)}  className="text-[Dark]   text-[9px] font-[500] leading-[normal]">Edit</button>
                        </div>
                       </div>
-                      <div className="flex items-center mt-2  justify-start w-[290px] h-[46px] border rounded-[26px] border-[#CECECE]">
+                      <div className="flex items-center mt-2  justify-start w-[290px] h-[46px] shadow-md border rounded-[26px] border-[#CECECE]">
                        <div className="flex items-center w-[180px] justify-between p-2">
                          <div className="ml-2">
                          <Image src="/images/rate.svg" alt="profile" width={24} height={24} />
@@ -448,7 +483,7 @@ export default function ProfilePage() {
                         <div>
                             <p  className="text-[#222222E5] text-[12px] font-[500] leading-[normal]">Experience</p>
                             </div>
-                            <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                            <div className="w-[40] flex items-center justify-center  border  shadow-md pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                         <button onClick={() => handleEditExperience(experience)} className="text-[Dark]   text-[9px] font-[500] leading-[normal]">Edit</button>
                        </div>
                       </div>
@@ -531,7 +566,7 @@ export default function ProfilePage() {
                           
                                 <p  className="text-[#222222E5] text-[12px] font-[500] leading-[normal]">Education</p>
                                 </div>
-                                <div className="w-[40] flex items-center justify-center  pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
+                                <div className="w-[40] flex items-center justify-center  border  shadow-md pl-5 pr-5 pt-3 pb-3 h-[16px] rounded-[64px] bg-[#F0EFFA]">
                             <button  onClick={() => handleEditEducation(education)} className="text-[Dark]   text-[9px] font-[500] leading-[normal]">Edit</button>
                            </div>
                         </div>

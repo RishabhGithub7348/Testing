@@ -10,11 +10,13 @@ import { toast } from "react-hot-toast";
 
 
 
-const AboutPage = async () =>  {
+const AboutPage =  () =>  {
      const router = useRouter();
      
     const [about, setAbout] = useState('');
     const [loading, setLoading] = useState(false);
+
+  
     
 
     

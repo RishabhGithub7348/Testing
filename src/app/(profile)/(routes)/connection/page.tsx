@@ -99,77 +99,84 @@ export default function MyConnection() {
   };
   
 
-  return (
-    <div className="flex   flex-col  bg-[#FAFBFF] mt-5">
-       <div className='flex  bg-[#1E2875] w-[1100px]  ml-[255px] rounded-md h-[77px] '>
-          <div className="flex  justify-center m-3">
-          <h1 className="text-[#FFF] text-[24px] font-[500] leading-[normal]">My Connections</h1>
-          </div>     
-        </div>
 
-        <div className='flex flex-col ml-[300px] mt-5  '>
-           <div className='flex items-center justify-start flex-wrap gap-8 '>
-
-           {connectedUsers.map((connection, index) => (
-            <div key={index} className="flex items-center gap-3 border rounded-[5px] border-[#00000026] w-[222px] h-[119px] p-3 ">
-              <div className="flex flex-col gap-[6px]">
-                <p className="text-[#1F1F1FCC] text-[11px] font-[600] leading-[normal]">{connection.name}</p>
-                <div className="flex flex-col">
-                  <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.role}</p>
-                  <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.company}</p>
+    return (
+      <div className="flex   flex-col m-4 bg-[#FAFBFF] mt-5">
+         <div className='flex  bg-[#1E2875] w-[1100px] sm:m-4 md:ml-[255px] lg:ml-[255px] rounded-md h-[77px] '>
+            <div className="flex  justify-center m-3">
+            <h1 className="text-[#FFF] text-[24px] font-[500] leading-[normal]">My Connections</h1>
+            </div>     
+          </div>
+  
+          <div className='flex flex-col md:ml-[300px] lg:ml-[300px] mt-5  '>
+             <div className='flex items-center md:justify-start lg:justify-start justify-center flex-wrap gap-8 '>
+  
+             {connectedUsers.map((connection, index) => (
+              <div key={index} className="flex items-center gap-3 border rounded-[5px] border-[#00000026] w-[222px] h-[119px] p-3 ">
+                <div className="flex flex-col gap-[6px]">
+                  <p className="text-[#1F1F1FCC] text-[11px] font-[600] leading-[normal]">{connection.name}</p>
+                  <div className="flex flex-col">
+                    <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.role}</p>
+                    <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.company}</p>
+                  </div>
+                  <div className="bg-[#BAB6EB] p-2 mt-2 w-[115px] h-[14px] border rounded-[64px] flex items-center justify-center">
+                    <p
+                      onClick={() => handleRemove(index)}
+                      className="text-[#1F1F1FCC] text-[10px] font-[500] leading-[normal] cursor-pointer"
+                    >
+                      Remove Connection
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-[#BAB6EB] p-2 mt-2 w-[115px] h-[14px] border rounded-[64px] flex items-center justify-center">
-                  <p
-                    onClick={() => handleRemove(index)}
-                    className="text-[#1F1F1FCC] text-[10px] font-[500] leading-[normal] cursor-pointer"
-                  >
-                    Remove Connection
-                  </p>
+                <div className="w-[100px] h-[100px] rounded-[0.889px] overflow-hidden">
+                  <Image src="/images/Profile.png" alt="logo" width={100} height={100} className="bg-[#FFA78D] rounded-full object-contain" />
                 </div>
               </div>
-              <div className="w-[100px] h-[100px] rounded-[0.889px] overflow-hidden">
-                <Image src="/images/Profile.png" alt="logo" width={100} height={100} className="bg-[#FFA78D] rounded-full object-contain" />
-              </div>
-            </div>
-          ))}
-
-
+            ))}
+  
+  
+             </div>
+  
+  
+  
+             <div className='flex items-center justify-center md:justify-start lg:justify-start  mt-24'>
+           <h1 className='text-[#222222E5] text-[20px] font-[300] leading-[normal]'>People you can also connect</h1>
            </div>
-
-
-
-           <div className='flex items-center  mt-24'>
-         <h1 className='text-[#222222E5] text-[20px] font-[300] leading-[normal]'>People you can also connect</h1>
-         </div>
-
-         <div className="flex items-center mt-8 justify-start flex-wrap gap-8">
-  {unconnectedUsers.map((connection, index) => (
-    // Render potential connections only if not already connected
-    connection && (
-      <div key={index} className="flex items-center gap-3 border rounded-[5px] border-[#00000026] w-[222px] h-[119px] p-3 ">
-        <div className="flex flex-col gap-[6px]">
-          <p className="text-[#1F1F1FCC] text-[11px] font-[600] leading-[normal]">{connection.name}</p>
-          <div className="flex flex-col">
-            <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.role}</p>
-            <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.company}</p>
+  
+           <div className="flex items-center mt-8 md:justify-start lg:justify-start justify-center flex-wrap gap-8">
+           {unconnectedUsers.map((connection, index) => (
+      // Render potential connections only if not already connected
+      connection && (
+        <div key={index} className="flex items-center gap-3 border rounded-[5px] border-[#00000026] w-[222px] h-[119px] p-3 ">
+          <div className="flex flex-col gap-[6px]">
+            <p className="text-[#1F1F1FCC] text-[11px] font-[600] leading-[normal]">{connection.name}</p>
+            <div className="flex flex-col">
+              <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.role}</p>
+              <p className="text-[#1F1F1FCC] text-[11px] font-[400] leading-[normal]">{connection.company}</p>
+            </div>
+            <div className="bg-[#BAB6EB] p-2 mt-2 w-[115px] h-[14px] border rounded-[64px] flex items-center justify-center">
+              <p
+                onClick={() => handleConnect(index)}
+                className="text-[#1F1F1FCC] text-[10px] font-[500] leading-[normal] cursor-pointer"
+              >
+                Connect
+              </p>
+            </div>
           </div>
-          <div className="bg-[#BAB6EB] p-2 mt-2 w-[115px] h-[14px] border rounded-[64px] flex items-center justify-center">
-            <p
-              onClick={() => handleConnect(index)}
-              className="text-[#1F1F1FCC] text-[10px] font-[500] leading-[normal] cursor-pointer"
-            >
-              Connect
-            </p>
+          <div className="w-[100px] h-[100px] rounded-[0.889px] overflow-hidden">
+            <Image src="/images/Profile.png" alt="logo" width={100} height={100} className="bg-[#FFA78D] rounded-full object-contain" />
           </div>
         </div>
-        <div className="w-[100px] h-[100px] rounded-[0.889px] overflow-hidden">
-          <Image src="/images/Profile.png" alt="logo" width={100} height={100} className="bg-[#FFA78D] rounded-full object-contain" />
-        </div>
+      )
+    ))}
+  </div>
+  
+  
+  
+  
+            </div> 
+      
+  
       </div>
     )
-  ))}
-</div>
-   </div> 
-    </div>
-  )
-}
+  }

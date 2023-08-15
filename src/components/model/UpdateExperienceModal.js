@@ -5,11 +5,11 @@ import axios from "axios";
 const UpdateExperienceModal = ({ isOpen, onClose }) => {
     const { experience, setExperience} = useContext(PostContext)
   const [editedExperience, setEditedExperience] = useState({
-    company: experience.company,
-    startYear: experience.startYear,
-    endYear: experience.endYear,
-    role: experience.role,
-    positionType: experience.positionType
+    company: experience?.company,
+    startYear: experience?.startYear,
+    endYear: experience?.endYear,
+    role: experience?.role,
+    positionType: experience?.positionType
 
   });
 
@@ -52,7 +52,7 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
         <input
           type="text"
           name="company"
-          value={editedExperience.company}
+          value={editedExperience?.company}
           onChange={e => handleInputChange("company", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Company"
@@ -60,7 +60,7 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
         <input
           type="number"
           name="startYear"
-          value={editedExperience.startYear}
+          value={editedExperience?.startYear}
           onChange={e => handleInputChange("startYear", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Start Year"
@@ -68,7 +68,7 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
         <input
           type="number"
           name="endYear"
-          value={editedExperience.endYear}
+          value={editedExperience?.endYear}
           onChange={e => handleInputChange("endYear", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="End Year"
@@ -76,7 +76,7 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
         <input
           type="text"
           name="role"
-          value={editedExperience.role}
+          value={editedExperience?.role}
           onChange={e => handleInputChange("role", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Role"
@@ -84,7 +84,7 @@ const UpdateExperienceModal = ({ isOpen, onClose }) => {
         <input
           type="text"
           name="positionType"
-          value={editedExperience.positionType}
+          value={editedExperience?.positionType}
           onChange={e => handleInputChange("positionType", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Position Type"

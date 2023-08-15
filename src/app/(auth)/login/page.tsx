@@ -27,7 +27,7 @@ export default function LoginPage() {
             const response = await axios.post("/api/users/login", user);
             console.log("Login success", response.data);
             toast.success("Login success");
-            router.push("/profile");
+            router.push("/about");
         } catch (error:any) {
             console.log("Login failed", error.message);
             toast.error(error.message);
@@ -46,7 +46,7 @@ export default function LoginPage() {
 
     return (
         <div className="flex flex-col  items-center justify-center p-2 bg-[#FAFBFF]   h-screen">
-        <div className="w-[460px]  border rounded-md border-gray-400 shadow-lg bg-white  shadow-slate-300 outline-none  p-3">
+        <div className="lg:w-[460px] md:w-[460px] w-[350px]  border rounded-md border-gray-400 shadow-lg bg-white  shadow-slate-300 outline-none  p-3">
           <div className="flex items-center justify-center p-3">
               <Image src="/images/logo.png" alt="logo" width={100} height={100} />
           

@@ -14,6 +14,9 @@ export const PostProvider = ({ children }) => {
     const [certification , setCertification] = useState([]);
     const [experience , setExperience] = useState([]);
     const [education , setEducation] = useState([]);
+    const [image, setImage] = useState(null);
+    const [id, setId] = useState(null);
+    
 
     useEffect(() => {
         const fetchAbout = async () => {
@@ -30,7 +33,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchAbout();
-      }, [setAboutData]);
+      }, [setAboutData,user]);
 
       useEffect(() => {
         const fetchUser = async () => {
@@ -38,6 +41,7 @@ export const PostProvider = ({ children }) => {
             const response = await axios.get("/api/users/detail");
             console.log('Fetched User:', response.data.data);
             setUser(response.data.data);
+            setId(response.data.data._id);
           } catch (error) {
             console.error('Error fetching User:', error);
             
@@ -48,6 +52,7 @@ export const PostProvider = ({ children }) => {
     
         fetchUser();
       }, [setUser]);
+      console.log(id);
 
 
       useEffect(() => {
@@ -65,7 +70,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchSkill();
-      }, [setSkills]);
+      }, [setSkills, id]);
 
       useEffect(() => {
         const fetchCertification = async () => {
@@ -82,7 +87,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchCertification();
-      }, [setCertification]);
+      }, [setCertification, id]);
 
 
       useEffect(() => {
@@ -100,7 +105,7 @@ export const PostProvider = ({ children }) => {
         };
     
         fetchExperience();
-      },[setExperience])
+      },[setExperience, id])
 
         useEffect(() => {
             const fetchEducation = async () => {
@@ -118,7 +123,27 @@ export const PostProvider = ({ children }) => {
         
             fetchEducation();
           
-        },[setEducation])
+        },[setEducation,id])
+
+        useEffect(() => {
+            const fetchImage = async () => {
+              try {
+                const response = await axios.get("/api/users/profile");
+                console.log('Fetched Image:', response.data.profilePic
+                );
+                setImage(response.data.profilePic);
+              } catch (error) {
+                console.error('Error fetching Image:', error);
+                
+              } finally {
+                console.log('Done fetching Image');
+              }
+            };
+        
+            fetchImage();
+          
+        
+        }, [setImage, id])
 
         
 
@@ -127,7 +152,7 @@ export const PostProvider = ({ children }) => {
 
     return (
         <PostContext.Provider value={{ aboutData, setAboutData, user, setUser, skills, setSkills , certification, setCertification
-        , experience, setExperience , education, setEducation
+        , experience, setExperience , education, setEducation, image, setImage, id
         
         }}>
             <div>

@@ -52,7 +52,7 @@ export default function SignupPage() {
 
     return (
     <div className="flex flex-col  items-center justify-center p-2 bg-[#FAFBFF]  h-screen">
-      <div className="w-[460px]  border rounded-md border-gray-400 shadow-lg bg-white shadow-slate-300 outline-none  p-3">
+      <div className="lg:w-[460px] md:w-[460px] w-[350px]  border rounded-md border-gray-400 shadow-lg bg-white shadow-slate-300 outline-none  p-3">
         <div className="flex items-center justify-center p-3">
             <Image src="/images/logo.png" alt="logo" width={100} height={100} />
         

@@ -19,8 +19,8 @@ const Sidebar = () => {
     }
 
     return (
-        <div className="bg-[#FFFFFF] w-[250px] custom p-5 h-screen fixed z-30 flex-shrink-0">
-            <div className="flex flex-col  justify-between h-full  ">
+        <div className="bg-[#FFFFFF] w-[250px] custom p-5 h-screen hidden lg:block md:block fixed z-30 flex-shrink-0">
+            <div className="flex  flex-col  justify-between h-full  ">
             <div className="flex flex-col  gap-9">
              <div className="flex justify-end items-end">
              <div className="flex justify-center   items-center rounded-[8px] p-3 border border-[#00000026] text-[#222222E5] w-[183px] h-[47px]">

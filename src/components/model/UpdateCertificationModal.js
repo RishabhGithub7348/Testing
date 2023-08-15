@@ -7,8 +7,8 @@ const UpdateCertificationModal = ({ isOpen, onClose}) => {
     const { certification, setCertification} = useContext(PostContext)
 
     const [editedCertification, setEditedCertification] = useState({
-        courseName: certification.courseName,
-        organization: certification.organization,     
+        courseName: certification?.courseName,
+        organization: certification?.organization,     
       });
     // console.log(editedCertification);
 
@@ -46,7 +46,7 @@ const UpdateCertificationModal = ({ isOpen, onClose}) => {
         <input
           type="text"
           name="courseName"
-          value={editedCertification.courseName}
+          value={editedCertification?.courseName}
           onChange={e => handleInputChange("courseName", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Course Name"
@@ -54,7 +54,7 @@ const UpdateCertificationModal = ({ isOpen, onClose}) => {
         <input
           type="text"
             name="organization"
-          value={editedCertification.organization}
+          value={editedCertification?.organization}
           onChange={e => handleInputChange("organization", e.target.value)}
           className="border p-2 mb-2 w-full"
           placeholder="Organization"
